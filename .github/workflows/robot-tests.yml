@@ -1,0 +1,36 @@
+name: Robot Framework Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    name: Run Robot Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Dependencies
+        run: uv sync --frozen
+
+      - name: Run Robot Framework Tests
+        run: uv run dotenv run -- robot tests/
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: robot-results
+          path: results/
