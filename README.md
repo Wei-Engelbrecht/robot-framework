@@ -65,12 +65,18 @@ Defines project settings, search paths, and environment options (such as `ROBOT_
    uv run dotenv run -- robot tests/
    ```
 
-### Code Quality (Linting)
+### Code Quality (Linting & Formatting)
 
-To install development dependencies (including Ruff) and check code quality:
+To install development dependencies (including Ruff) and check code quality and formatting:
 ```bash
 uv sync --dev
 uv run ruff check .
+uv run ruff format --check .
+```
+
+To automatically format your code:
+```bash
+uv run ruff format .
 ```
 
 After execution, Robot Framework will generate test reports and logs inside `results/` (`output.xml`, `log.html`, `report.html`).
